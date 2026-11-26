@@ -1,0 +1,11 @@
+__pycache__/
+*.py[oc]
+build/
+dist/
+*.egg-info
+.venv
+.env
+data/extracted/
+data/chroma/
+data/reranker/modele_adapte/
+resultats/*.json

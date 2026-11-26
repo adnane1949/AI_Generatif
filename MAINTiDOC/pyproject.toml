@@ -1,0 +1,53 @@
+[project]
+name = "maintidoc"
+version = "0.2.0"
+description = "MAINTiDOC - assistant documentaire multimodal pour la maintenance (etapes 1 et 2)"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "chromadb>=1.5.9",
+    "open-clip-torch>=3.3.0",
+    "torch>=2.6.0",
+    "torchvision",
+    "pymupdf>=1.26",
+    "langchain-text-splitters>=0.3",
+    "ollama>=0.5",
+    "sentence-transformers>=3.3",
+    "accelerate>=1.0",
+    "datasets>=3.0",
+    "fastapi>=0.115",
+    "uvicorn>=0.34",
+    "python-multipart>=0.0.20",
+    "streamlit>=1.40",
+    "httpx>=0.28",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.6",
+    "pillow>=10",
+]
+
+[project.scripts]
+maintidoc-ingest  = "maintidoc.ingest:main"
+maintidoc-api     = "maintidoc.api:main"
+maintidoc-dataset = "maintidoc.reranker:main_dataset"
+maintidoc-train   = "maintidoc.reranker:main_train"
+maintidoc-eval    = "maintidoc.evaluation:main"
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[build-system]
+requires = ["uv_build>=0.12.23,<0.13.0"]
+build-backend = "uv_build"
+
+# PyTorch avec CUDA (le GPU RTX A2000 supporte CUDA 13.x ; les roues cu128 fonctionnent)
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+torchvision = { index = "pytorch-cu128" }
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
